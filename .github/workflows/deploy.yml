@@ -1,0 +1,23 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: self-hosted  # Your internal runner
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t localhost:5000/my-first-app:${GITHUB_SHA::7} .
+          docker push localhost:5000/my-first-app:${GITHUB_SHA::7}
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl set image deployment/devops my-first-app=localhost:5000/my-first-app:${GITHUB_SHA::7}
+          kubectl rollout status deployment/devops
