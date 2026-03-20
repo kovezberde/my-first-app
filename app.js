@@ -4,7 +4,7 @@ const PORT = 3000;
 
 // Correct syntax for a GET route
 app.get('/', (req, res) => {
-    res.send('Hello World! KO KO2');
+    res.send('Hello KO!!!');
 });
 
 // Start server
